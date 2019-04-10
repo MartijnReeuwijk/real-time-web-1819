@@ -6,10 +6,10 @@ const request = require("request");
 const ejsLint = require("ejs-lint");
 const compression = require("compression");
 const minifyHTML = require("express-minify-html");
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
-const WordPOS = require('wordpos'),
-    wordpos = new WordPOS();
+const http = require("http").Server(app);
+const io = require("socket.io")(http);
+const WordPOS = require("wordpos"),
+  wordpos = new WordPOS();
 
 const baseDir = "static/";
 // app.use((req, res, next) => {
@@ -40,16 +40,44 @@ app.set("view engine", "ejs");
 app.use(express.static("static"));
 http.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
-
-const zoomerSpeechArray = ["fam","boi","goodest","Slay","Dope","savage","Chill","Gurl","bro","Bruh","Bae","Fave","Yolo","Adorbs","yikes","Chad", "mood", "yeet", "LIT", "kachow", "oof", "like", "dab", "normie" ,"Kobe","Thicc", "Selfie", "sick"];
-wordpos.getAdjectives(zoomerSpeechArray, function(result){
-console.log(result);
+const zoomerSpeechArray = [
+  "fam",
+  "boi",
+  "goodest",
+  "Slay",
+  "Dope",
+  "savage",
+  "Chill",
+  "Gurl",
+  "bro",
+  "Bruh",
+  "Bae",
+  "Fave",
+  "Yolo",
+  "Adorbs",
+  "yikes",
+  "Chad",
+  "mood",
+  "yeet",
+  "LIT",
+  "kachow",
+  "oof",
+  "like",
+  "dab",
+  "normie",
+  "Kobe",
+  "Thicc",
+  "Selfie",
+  "sick"
+];
+wordpos.getAdjectives(zoomerSpeechArray, function(result) {
+  console.log(result);
 });
 function zoomAdjectives() {
-  const adjectivesArray = ["Dope","savage","Chill","LIT","Thicc", "sick"]
-  const randomZoomerWord = adjectivesArray[Math.floor(Math.random() * adjectivesArray.length)];
-  return randomZoomerWord
-
+  const adjectivesArray = ["Dope", "savage", "Chill", "LIT", "Thicc", "sick"];
+  const randomZoomerWord =
+    adjectivesArray[Math.floor(Math.random() * adjectivesArray.length)];
+  return randomZoomerWord;
 }
 
 // wordpos.getPOS(zoomerSpeechArray, callback){
@@ -63,33 +91,34 @@ function zoomAdjectives() {
 app.get("/", (req, res) => {
   res.render("index", {
     title: "Web app"
-  })
-})
-
-io.on('connection', function(socket){
-  console.log('a user connected');
-  socket.broadcast.emit('hi');
-  socket.on('chat message', function(msg){
-   io.emit('chat message', msg);
- });
-  socket.on('disconnect', function(){
-  socket.broadcast.emit('Bye');
-    console.log('user disconnected');
   });
 });
 
-io.on('connection', function(socket){
-  // hier is de backend gedeelte
-  socket.on('chat message', function(msg){
+io.on("connection", function(socket) {
+  console.log("a user connected");
+  socket.broadcast.emit("hi");
+  socket.on("chat message", function(msg) {
+    // send to client
+    wordpos.getAdjectives(msg, function(result) {
+      let zoomerSpeak = msg;
+      for (let i = 0; i < result.length; i++) {
+        let zoomerresult = zoomAdjectives();
+        zoomerSpeak = zoomerSpeak.replace(result[i], zoomerresult);
+      }
+        io.emit("chat message", zoomerSpeak);
+    });
 
-    wordpos.getAdjectives(msg, function(result){
-      wordpos.getAdjectives(zoomerSpeechArray, function(result){
-        result.replace('dog', 'monkey')
-      });
-
-    console.log(result);
+  });
+  socket.on("disconnect", function() {
+    socket.broadcast.emit("Bye");
+    console.log("user disconnected");
+  });
 });
 
-    console.log('message: ' + msg);
+io.on("connection", function(socket) {
+  // hier is de backend gedeelte
+  // this is the original message to the backend
+  socket.on("chat message", function(msg) {
+    console.log("message: " + msg);
   });
 });
