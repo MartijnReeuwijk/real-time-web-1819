@@ -1,6 +1,6 @@
 console.log("iets");
 (function() {
-  matchZoomerArray = ["Dans", "zoom", "Zoomer","dab","boomer"];
+  matchZoomerArray = ["Dans", "zoom", "Zoomer","dab","boomer","zoomers"];
 
   function getZoomerGif() {
     imageArrayZoomer = ["/img/zoom.gif", "/img/floss.gif", "/img/boomerdance.gif", "/img/zoomHigh.gif"];
