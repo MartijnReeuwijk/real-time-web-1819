@@ -24,12 +24,18 @@ console.log("iets");
   socket.on("chat message", function(msg) {
     let newLi = document.createElement("li");
     let check = (matchZoomerArray.indexOf(msg) > -1);
+    let trump ="https://media1.giphy.com/media/z619OZp86JaBG/giphy.gif?cid=790b76115caf385d4156307432df46e1"
     if (check) {
       console.log("check");
       newLi.classList.add("zoomGif");
       let image = getZoomerGif();
       newLi.style.backgroundImage = `url(${image})`;
-    } else {
+    }
+    if (msg == "Trump") {
+      newLi.classList.add("zoomGif");
+      newLi.style.backgroundImage = `url(${trump})`;
+    }
+     else {
       newLi.textContent = msg;
     }
 
