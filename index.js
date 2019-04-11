@@ -73,8 +73,9 @@ const zoomerSpeechArray = [
 wordpos.getAdjectives(zoomerSpeechArray, function(result) {
   console.log(result);
 });
+
 function zoomAdjectives() {
-  const adjectivesArray = ["Dope", "savage", "Chill", "LIT", "Thicc", "sick"];
+  const adjectivesArray = ["gucci", "goodest", "Adorbs", "Dope", "Dank", "savage", "Chill", "LIT", "Thicc", "sick"];
   const randomZoomerWord =
     adjectivesArray[Math.floor(Math.random() * adjectivesArray.length)];
   return randomZoomerWord;
@@ -87,10 +88,26 @@ function zoomAdjectives() {
 //       adverbs:[],
 //       rest:[]
 //     }
-
+const colorArray = [{
+    hex: "#fc8763"
+  },
+  {
+    hex: "#63d8fc"
+  },
+  {
+    hex: "#8763fc"
+  },
+  {
+    hex: "#63fc87"
+  },
+  {
+    hex: "#fc638b"
+  },
+]
 app.get("/", (req, res) => {
   res.render("index", {
-    title: "Web app"
+    title: "Web app",
+    colors: colorArray
   });
 });
 
@@ -99,16 +116,18 @@ io.on("connection", function(socket) {
   socket.broadcast.emit("hi");
   socket.on("chat message", function(msg) {
     // send to client
+    ///waarom kreeg ik dit niet in eeen function zeer iritant
     wordpos.getAdjectives(msg, function(result) {
       let zoomerSpeak = msg;
       for (let i = 0; i < result.length; i++) {
         let zoomerresult = zoomAdjectives();
         zoomerSpeak = zoomerSpeak.replace(result[i], zoomerresult);
+        zoomerSpeak.toLowerCase()
       }
-        io.emit("chat message", zoomerSpeak);
+      io.emit("chat message", zoomerSpeak);
     });
-
   });
+
   socket.on("disconnect", function() {
     socket.broadcast.emit("Bye");
     console.log("user disconnected");

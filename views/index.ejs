@@ -1,26 +1,39 @@
 <!doctype html>
 <html>
-  <head>
-    <title>Socket.IO chat</title>
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
-    </style>
-  </head>
-  <body>
-    <ul id="messages"></ul>
-    <form id="form" action="">
-      <input id="m" autocomplete="off" /><button id="button">Send</button>
+
+<head>
+  <title>Socket.IO chat</title>
+  <link rel="stylesheet" type="text/css" href="/css/master.css">
+</head>
+
+<body>
+  <!-- <section class="transition loginHolder">
+    <div class="login borderRadius shadows transition">
+      <h1>Kies een username en kleur</h1>
+      <form class="loginForm" action="index.html" method="post">
+        <input type="text" name="name" placeholder="Naampie">
+        <button type="button" name="button">Chat</button>
+        <% colors.forEach(function(color){ %>
+        <a href="<%=color.hex %>" class="colorOption" style="background-color: <%=color.hex %>">
+        </a>
+        <% }) %>
+      </form>
+    </div>
+  </section> -->
+
+  <section class=" transition chat_holder">
+
+
+    <ul id="messages" class="borderRadius"></ul>
+    <form id="form" class="borderRadius" action="">
+      <input class="borderRadius" id="m" autocomplete="off" /><button class="borderRadius" id="button">Send</button>
     </form>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <script src="/js/socketScript.js"></script>
-  </body>
+
+  </section>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <script src="/js/socketScript.js"></script>
+</body>
 
 </html>
