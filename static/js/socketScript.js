@@ -1,9 +1,9 @@
 console.log("iets");
 (function() {
-  matchZoomerArray = ["Dans", "zoom", "Zoomer","dab","boomer","zoomers","zoomer"];
+  matchZoomerArray = ["tv","l","Dans", "zoom", "Zoomer","dab","boomer","zoomers","zoomer"];
 
   function getZoomerGif() {
-    imageArrayZoomer = ["/img/zoom.gif", "/img/floss.gif", "/img/boomerdance.gif", "/img/zoomHigh.gif"];
+    imageArrayZoomer = ["/img/l.gif","/img/zoom.gif", "/img/floss.gif", "/img/boomerdance.gif", "/img/zoomHigh.gif"];
     const randomZoomerGif =
       imageArrayZoomer[Math.floor(Math.random() * imageArrayZoomer.length)];
     return `"` + randomZoomerGif + `"`
